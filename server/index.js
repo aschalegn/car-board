@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express(),
     axios = require('axios'),
-    perPage = 10;
+    perPage = 15;
 let cars = [];
 
 app.get("/cars", (req, res) => {
-    res.json(cars);
+    res.json(Math.round(cars.length/perPage));
 });
 
 app.get("/cars/:page", (req, res) => {

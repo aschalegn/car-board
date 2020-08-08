@@ -5,8 +5,8 @@ import { Table, TableHead, TableRow, TableBody, TableCell } from '@material-ui/c
 
 export default function Cars() {
     const [cars, setcars] = useState([]);
-    const [totalPages, settotalPages] = useState(10);
-    const [currentPage, setcurrentPage] = useState(2);
+    const [totalPages, settotalPages] = useState();
+    let currentPage = 1;
 
     const fetchCars = () => {
         axios.get(`/cars/${currentPage}`)
@@ -16,12 +16,24 @@ export default function Cars() {
                 }
             });
     }
+
+    const getTotalPages = () => {
+        axios.get("/cars")
+            .then(res => {
+                if (res.status === 200) {
+                    settotalPages(res.data);
+                }
+            });
+    }
+
     useEffect(() => {
         fetchCars();
+        getTotalPages();
     }, []);
+
     return (
         <div>
-            <Table style={{ width: "90vw", margin: "auto" }}>
+            <Table style={{ width: "85vw", margin: "auto" }}>
                 <TableHead>
                     <TableRow>
                         <TableCell><b>Image</b></TableCell>
@@ -45,11 +57,11 @@ export default function Cars() {
                     )}
                 </TableBody>
             </Table>
-            <Pagination defaultPage={currentPage} count={totalPages} color="secondary" onChange={(e, page) => {
-                setcurrentPage(page);
-                fetchCars();
-                console.log(page);
-            }} />
+            <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
+                onChange={(e, page) => {
+                    currentPage = page;
+                    fetchCars();
+                }} />
         </div>
     );
 }
