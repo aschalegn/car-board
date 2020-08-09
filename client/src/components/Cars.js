@@ -5,7 +5,7 @@ import { Table, TableHead, TableRow, TableBody, TableCell } from '@material-ui/c
 
 export default function Cars(props) {
     const [cars, setcars] = useState([]);
-    const [filted, setFilted] = useState([])
+    const [filtered, setFilted] = useState([])
     const [totalPages, settotalPages] = useState();
     let currentPage = 1;
 
@@ -51,7 +51,7 @@ export default function Cars(props) {
                                 <img src={car.img_url} alt={car.model} height="100px" width="150px" />
                             </TableCell>
                             <TableCell>{car.model}</TableCell>
-                            <TableCell>{car.price}</TableCell>
+                            <TableCell>{car.price}$</TableCell>
                             <TableCell>{car.year}</TableCell>
                             <TableCell>{car.make}</TableCell>
                         </TableRow>
