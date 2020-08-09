@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { FormControl, Select, MenuItem, InputLabel } from '@material-ui/core';
 
-export default function Filter() {
+export default function Filter(props) {
     const initialState = {
         year: '',
         manifacture: ''
     }
-    
-    const [formData, setformData] = useState(initialState)
     const [manifucturers, setmanifucturers] = useState([]);
 
     const fetchMans = () => {
@@ -25,7 +23,6 @@ export default function Filter() {
 
     const changeHandler = (e) => {
         initialState[e.target.name] = e.target.value;
-        setformData(initialState);
     }
 
     const filter = (e) => {
@@ -33,7 +30,7 @@ export default function Filter() {
         axios.get('/cars/filter/p', { params: initialState })
             .then(res => {
                 if (res.status === 200) {
-                    console.log("Filterd", res.data);
+                    props.updateFilter(res.data);
                 }
             });
     }
@@ -45,7 +42,7 @@ export default function Filter() {
     return (
         <div>
             <h3> Filter By:</h3>
-            <form onSubmit={(e) => { filter(e) }}>
+            <form onSubmit={(e) => { filter(e) }} id="filterForm">
                 <FormControl>
                     <InputLabel disabled value=""> Maker</InputLabel  >
                     <Select onChange={changeHandler} name="manifacture">
@@ -59,7 +56,7 @@ export default function Filter() {
                 </FormControl>
                 <FormControl>
                     <InputLabel> Year </InputLabel>
-                    <Select onChange={changeHandler} name="year" >
+                    <Select onChange={changeHandler} name="year">
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>

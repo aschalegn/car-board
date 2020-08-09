@@ -2,17 +2,17 @@ const express = require('express');
 const app = express(),
     axios = require('axios'),
     perPage = 15;
-let cars = [],
-    manifucturers = [];
+let cars = [], filterdCars = [];
 
 app.get("/cars", (req, res) => {
-    res.json(Math.round(cars.length / perPage));
+    filterdCars = cars;
+    res.send({ pages: Math.ceil(filterdCars.length / perPage), cars: filterdCars.slice(0, perPage) });
 });
 
 app.get("/cars/:page", (req, res) => {
     const { page } = req.params;
     let start = page == 1 ? 0 : (page - 1) * perPage;
-    const cartToPage = cars.slice(start, page * perPage);
+    const cartToPage = filterdCars.slice(start, page * perPage);
     res.send(cartToPage);
 });
 
@@ -44,8 +44,11 @@ app.get("/cars/filter/p", (req, res) => {
         result = cars.filter(car => {
             return car.year == year;
         });
+    } else {
+        result = []
     }
-    res.send(result);
+    filterdCars = result
+    res.send({ pages: Math.ceil(filterdCars.length / perPage), cars: filterdCars.slice(0, perPage) });
 });
 
 const fetchCars = () => {
@@ -57,9 +60,7 @@ const fetchCars = () => {
         });
 }
 
-
 fetchCars();
-
 app.listen(2000, () => {
-    console.log("server is listening on port 2000")
+    console.log("server is listening on port 2000");
 });

@@ -1,37 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
-import { Pagination } from '@material-ui/lab';
+import React from 'react'
 import { Table, TableHead, TableRow, TableBody, TableCell } from '@material-ui/core';
 
 export default function Cars(props) {
-    const [cars, setcars] = useState([]);
-    const [filtered, setFilted] = useState([])
-    const [totalPages, settotalPages] = useState();
-    let currentPage = 1;
-
-    const fetchCars = () => {
-        axios.get(`/cars/${currentPage}`)
-            .then(res => {
-                if (res.status === 200) {
-                    setcars(res.data);
-                }
-            });
-    }
-
-    const getTotalPages = () => {
-        axios.get("/cars")
-            .then(res => {
-                if (res.status === 200) {
-                    settotalPages(res.data);
-                }
-            });
-    }
-
-    useEffect(() => {
-        fetchCars();
-        getTotalPages();
-    }, []);
-
     return (
         <div>
             <Table style={{ width: "85vw", margin: "auto" }}>
@@ -45,7 +15,7 @@ export default function Cars(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cars.map(car =>
+                    {props.cars.map(car =>
                         <TableRow key={car.id}>
                             <TableCell>
                                 <img src={car.img_url} alt={car.model} height="100px" width="150px" />
@@ -58,11 +28,6 @@ export default function Cars(props) {
                     )}
                 </TableBody>
             </Table>
-            <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
-                onChange={(e, page) => {
-                    currentPage = page;
-                    fetchCars();
-                }} />
         </div>
     );
 }
