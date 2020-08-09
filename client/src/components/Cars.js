@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Pagination } from '@material-ui/lab';
 import { Table, TableHead, TableRow, TableBody, TableCell } from '@material-ui/core';
 
-export default function Cars() {
+export default function Cars(props) {
     const [cars, setcars] = useState([]);
+    const [filted, setFilted] = useState([])
     const [totalPages, settotalPages] = useState();
     let currentPage = 1;
 
@@ -36,7 +37,7 @@ export default function Cars() {
             <Table style={{ width: "85vw", margin: "auto" }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell><b>Image</b></TableCell>
+                        <TableCell><b></b></TableCell>
                         <TableCell><b> Model </b></TableCell>
                         <TableCell><b>Price </b></TableCell>
                         <TableCell><b>Year </b></TableCell>
