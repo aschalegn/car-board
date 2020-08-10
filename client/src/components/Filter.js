@@ -3,12 +3,10 @@ import axios from 'axios';
 import { FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
 
 export default function Filter(props) {
-    const initialState = {
-        year: '',
-        manifacture: ''
-    }
+
     const [manifucturers, setmanifucturers] = useState([]);
     const [years, setyears] = useState([]);
+    const [formData, setformData] = useState({});
 
     const fetchMans = () => {
         axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/manufacturers')
@@ -30,18 +28,19 @@ export default function Filter(props) {
                     res.data.forEach(car =>
                         years.includes(car.year) ? '' : years.push(car.year)
                     );
-                    setyears(years);
+                    setyears(years.sort());
                 }
             });
     }
 
     const changeHandler = (e) => {
-        initialState[e.target.name] = e.target.value;
+        setformData({ ...formData, [e.target.name]: e.target.value });
     }
 
     const filter = (e) => {
         e.preventDefault();
-        axios.get('/cars/filter/params', { params: initialState })
+        
+        axios.get('/cars/filter/params', { params: formData })
             .then(res => {
                 if (res.status === 200) {
                     props.updateFilter(res.data);
@@ -59,7 +58,6 @@ export default function Filter(props) {
             <form onSubmit={(e) => { filter(e) }} id="filterForm">
                 <FormControl>
                     <InputLabel >Filter By:</InputLabel>
-
                 </FormControl>
                 <FormControl>
                     <InputLabel disabled value=""> Maker</InputLabel  >
@@ -86,7 +84,6 @@ export default function Filter(props) {
                         <MenuItem value="2017">2017</MenuItem > */}
                     </Select>
                 </FormControl>
-               
                 <Button type="submit" variant="contained" color="primary">Search</Button>
             </form>
         </div>

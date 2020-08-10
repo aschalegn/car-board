@@ -12,11 +12,11 @@ export default function HOME() {
     let currentPage = 1;
 
     useEffect(() => {
-        // pageResult();
         fetchCars();
     }, [])
 
     const fetchCars = () => {
+        setisFiltered(false);
         axios.get(`/cars`)
             .then(res => {
                 if (res.status === 200) {
@@ -45,15 +45,15 @@ export default function HOME() {
     return (
         <div>
             <Filter updateFilter={updateFilter} />
-            <Cars cars={cars} />
-            <Grid container justify = "center">
-  <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
-                onChange={(e, page) => {
-                    currentPage = page;
-                    pageResult()
-                }} />
-</Grid>
-            
+            <Cars cars={cars} isFiltered={isFiltered} />
+            <Grid container justify="center">
+                <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
+                    onChange={(e, page) => {
+                        currentPage = page;
+                        pageResult()
+                    }} />
+            </Grid>
+
         </div>
     )
 }
