@@ -15,7 +15,7 @@ export default function Cars(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.cars.map(car =>
+                    {props.cars ? props.cars.map(car =>
                         <TableRow key={car.id}>
                             <TableCell>
                                 <img src={car.img_url} alt={car.model} height="100px" width="150px" />
@@ -25,7 +25,7 @@ export default function Cars(props) {
                             <TableCell>{car.year}</TableCell>
                             <TableCell>{car.make}</TableCell>
                         </TableRow>
-                    )}
+                    ) : 'No cars Try Anothe filter'}
                 </TableBody>
             </Table>
         </div>

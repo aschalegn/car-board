@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { FormControl, Select, MenuItem, InputLabel } from '@material-ui/core';
+import { FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
 
 export default function Filter(props) {
     const initialState = {
@@ -8,6 +8,7 @@ export default function Filter(props) {
         manifacture: ''
     }
     const [manifucturers, setmanifucturers] = useState([]);
+    const [years, setyears] = useState([]);
 
     const fetchMans = () => {
         axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/manufacturers')
@@ -21,13 +22,26 @@ export default function Filter(props) {
             });
     }
 
+    const fetchYears = () => {
+        const years = []
+        axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/cars')
+            .then(res => {
+                if (res.status === 200) {
+                    res.data.forEach(car =>
+                        years.includes(car.year) ? '' : years.push(car.year)
+                    );
+                    setyears(years);
+                }
+            });
+    }
+
     const changeHandler = (e) => {
         initialState[e.target.name] = e.target.value;
     }
 
     const filter = (e) => {
         e.preventDefault();
-        axios.get('/cars/filter/p', { params: initialState })
+        axios.get('/cars/filter/params', { params: initialState })
             .then(res => {
                 if (res.status === 200) {
                     props.updateFilter(res.data);
@@ -37,12 +51,16 @@ export default function Filter(props) {
 
     useEffect(() => {
         fetchMans();
+        fetchYears();
     }, []);
 
     return (
         <div>
-            <h3> Filter By:</h3>
             <form onSubmit={(e) => { filter(e) }} id="filterForm">
+                <FormControl>
+                    <InputLabel >Filter By:</InputLabel>
+
+                </FormControl>
                 <FormControl>
                     <InputLabel disabled value=""> Maker</InputLabel  >
                     <Select onChange={changeHandler} name="manifacture">
@@ -60,12 +78,16 @@ export default function Filter(props) {
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value="2015">2015</MenuItem >
+                        {years.map((year, i) =>
+                            <MenuItem key={i} value={year}>{year}</MenuItem >
+                        )}
+                        {/* <MenuItem value="2015">2015</MenuItem >
                         <MenuItem value="2016">2016</MenuItem >
-                        <MenuItem value="2017">2017</MenuItem >
+                        <MenuItem value="2017">2017</MenuItem > */}
                     </Select>
                 </FormControl>
-                <button type="submit">Search</button>
+               
+                <Button type="submit" variant="contained" color="primary">Search</Button>
             </form>
         </div>
     );

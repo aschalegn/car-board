@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Pagination } from '@material-ui/lab';
+import { Grid } from '@material-ui/core';
 import Cars from './Cars';
 import Filter from './Filter';
 
@@ -45,11 +46,14 @@ export default function HOME() {
         <div>
             <Filter updateFilter={updateFilter} />
             <Cars cars={cars} />
-            <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
+            <Grid container justify = "center">
+  <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
                 onChange={(e, page) => {
                     currentPage = page;
                     pageResult()
                 }} />
+</Grid>
+            
         </div>
     )
 }

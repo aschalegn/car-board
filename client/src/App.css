@@ -2,11 +2,10 @@
   text-align: center;
 }
 
-.MuiPagination-root {
-  width: 50%;
-  margin: auto;
+
+
+#filterForm .MuiFormControl-root{
+  margin-right: 2vw;
+  min-width: 70px;
 }
 
-#filterForm {
-  /* display: flex; */
-}
