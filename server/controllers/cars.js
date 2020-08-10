@@ -28,42 +28,18 @@ module.exports.pagenation = (req, res) => {
 
 module.exports.filter = (req, res) => {
     const { year, manifacture, model } = req.query;
-    let result = [];
     fetchCars().then(cars => {
-        if (manifacture && model && year) {
-            result = cars.filter(car => {
-                return car.make === manifacture && car.model === model && car.year == year;
-            });
-        }
-        else if (manifacture && model) {
-            result = cars.filter(car => {
-                return car.make === manifacture && car.model === model;
-            });
-        }
-        else if (manifacture && year) {
-            result = cars.filter(car => {
-                return car.make === manifacture && car.year == year;
-            });
-        }
-        else if (manifacture) {
-            result = cars.filter(car => {
-                return car.make === manifacture;
-            });
-        }
-        else if (year) {
-            result = cars.filter(car => {
-                return car.year == year;
-            });
+        if (!manifacture && !model && !year) {
+            filterdCars = [];
         } else {
-            result = []
+            filterdCars = cars.filter(car => {
+                const filterByManifacture = manifacture ? car.make === manifacture : true
+                const filterByModel = model ? car.model === model : true
+                const filterByYear = year ? car.year == year : true
+                return filterByManifacture && filterByModel && filterByYear
+            });
         }
-        // result = cars.filter(car => {
-        //     const filterByManifacture = manifacture ? car.make === manifacture : true
-        //     const filterByModel = model ? car.model === model : true
-        //     const filterByYear = year ? car.year == year : true
-        //     return filterByManifacture && filterByModel && filterByYear
-        // });
-        filterdCars = result;
+
         res.send({ pages: Math.ceil(filterdCars.length / perPage), cars: filterdCars.slice(0, perPage) });
-    })
+    });
 }

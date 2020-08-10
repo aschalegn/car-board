@@ -23,7 +23,7 @@ export default function Cars(props) {
                         {props.cars.map(car =>
                             <TableRow key={car.id}>
                                 <TableCell>
-                                    <img src={car.img_url} alt={car.model} height="100px" width="150px" />
+                                    <img data-hook="car-image" src={car.img_url} alt={car.model} height="100px" width="150px" />
                                 </TableCell>
                                 <TableCell>{car.model}</TableCell>
                                 <TableCell>{car.price}$</TableCell>

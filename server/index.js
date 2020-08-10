@@ -6,6 +6,7 @@ app.get("/cars", (req, res) => {
     index(req, res);
 });
 
+//pagination Route
 app.get("/cars/:page", (req, res) => {
     pagenation(req, res);
 });
