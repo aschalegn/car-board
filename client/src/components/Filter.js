@@ -3,10 +3,10 @@ import axios from 'axios';
 import { FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
 
 export default function Filter(props) {
-
-    const [manifucturers, setmanifucturers] = useState([]);
-    const [years, setyears] = useState([]);
-    const [formData, setformData] = useState({});
+    const [manifucturers, setManifucturers] = useState([]);
+    const [years, setYears] = useState([]);
+    const [formData, setFormData] = useState({});
+    const [selectedMan, setSelectedMan] = useState([]);
 
     const fetchMans = () => {
         axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/manufacturers')
@@ -15,31 +15,30 @@ export default function Filter(props) {
                     const manNames = res.data.map(man => {
                         return man.name;
                     });
-                    setmanifucturers(manNames);
+                    setManifucturers(manNames);
                 }
             });
     }
 
     const fetchYears = () => {
-        const years = []
+        const years = [];
         axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/cars')
             .then(res => {
                 if (res.status === 200) {
                     res.data.forEach(car =>
                         years.includes(car.year) ? '' : years.push(car.year)
                     );
-                    setyears(years.sort());
+                    setYears(years.sort());
                 }
             });
     }
-
     const changeHandler = (e) => {
-        setformData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+       
     }
 
     const filter = (e) => {
         e.preventDefault();
-        
         axios.get('/cars/filter/params', { params: formData })
             .then(res => {
                 if (res.status === 200) {
@@ -60,7 +59,7 @@ export default function Filter(props) {
                     <InputLabel >Filter By:</InputLabel>
                 </FormControl>
                 <FormControl>
-                    <InputLabel disabled value=""> Maker</InputLabel  >
+                    <InputLabel disabled value=""> Maker</InputLabel>
                     <Select onChange={changeHandler} name="manifacture">
                         <MenuItem value="">
                             <em>None</em>
@@ -70,6 +69,7 @@ export default function Filter(props) {
                         )}
                     </Select>
                 </FormControl>
+
                 <FormControl>
                     <InputLabel> Year </InputLabel>
                     <Select onChange={changeHandler} name="year">
@@ -79,9 +79,6 @@ export default function Filter(props) {
                         {years.map((year, i) =>
                             <MenuItem key={i} value={year}>{year}</MenuItem >
                         )}
-                        {/* <MenuItem value="2015">2015</MenuItem >
-                        <MenuItem value="2016">2016</MenuItem >
-                        <MenuItem value="2017">2017</MenuItem > */}
                     </Select>
                 </FormControl>
                 <Button type="submit" variant="contained" color="primary">Search</Button>

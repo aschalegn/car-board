@@ -44,7 +44,7 @@ export default function HOME() {
 
     return (
         <div>
-            <Filter updateFilter={updateFilter} />
+            <Filter updateFilter={updateFilter} cars={cars} />
             <Cars cars={cars} isFiltered={isFiltered} />
             <Grid container justify="center">
                 <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
