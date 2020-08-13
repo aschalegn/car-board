@@ -1,6 +1,14 @@
 const express = require('express');
-const app = express();
+const app = express(), session = require('express-session')
+
 const { pagenation, filter, index } = require('./controllers/cars');
+app.use(session(
+    {
+        secret: 'car-board',
+        resave: false,
+        saveUninitialized: false
+    }
+))
 
 app.get("/cars", (req, res) => {
     index(req, res);

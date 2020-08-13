@@ -13,7 +13,7 @@ const fetchCars = async () => {
 
 module.exports.index = (req, res) => {
     fetchCars().then(cars => {
-        filteredCars = cars;
+        req.session.filteredCars = cars;
         res.send({ pages: Math.ceil(cars.length / perPage), cars: cars.slice(0, perPage) });
     });
 }
@@ -21,22 +21,25 @@ module.exports.index = (req, res) => {
 module.exports.pagenation = (req, res) => {
     const { page } = req.params;
     let start = page == 1 ? 0 : (page - 1) * perPage;
-    const cartToPage = filteredCars.slice(start, page * perPage);
+    const cartToPage = req.session.filteredCars.slice(start, page * perPage);
     res.send(cartToPage);
 }
 
-module.exports.filter = (req, res) => {
+const filter = (req, res) => {
     const { year, manifacture } = req.query;
+    const { page } = req.params;
     fetchCars().then(cars => {
         if (!manifacture && !model && !year) {
-            filteredCars = [];
+            req.session.filteredCars = [];
         } else {
-            filteredCars = cars.filter(car => {
+            req.session.filteredCars = cars.filter(car => {
                 const filterByManifacture = manifacture ? car.make === manifacture : true
                 const filterByYear = year ? car.year == year : true
                 return filterByManifacture && filterByYear
             });
         }
-        res.send({ pages: Math.ceil(filteredCars.length / perPage), cars: filteredCars.slice(0, perPage) });
+        res.send({ pages: Math.ceil(req.session.filteredCars.length / perPage), cars: req.session.filteredCars.slice(0, perPage) });
     });
 }
+
+module.exports.filter = filter;
