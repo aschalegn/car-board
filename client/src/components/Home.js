@@ -17,7 +17,7 @@ export default function HOME() {
 
     const fetchCars = () => {
         setisFiltered(false);
-        axios.get(`/cars`)
+        axios.get(`/api/cars`)
             .then(res => {
                 if (res.status === 200) {
                     setCars(res.data.cars);
@@ -53,7 +53,6 @@ export default function HOME() {
                         pageResult()
                     }} />
             </Grid>
-
         </div>
     )
 }

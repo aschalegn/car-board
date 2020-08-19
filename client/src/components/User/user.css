@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.SignUp {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: auto;
+    background-color: aqua;
+}
+
+.SignUp form {
+    width: 50%;
+    padding: 20px;
+}
+
+.SignUp a {
+    background-color: rgb(80, 148, 238);
+    width: 50%;
+    padding: 20px;
+    text-decoration: none;
+}
+
+.SignUp .MuiSvgIcon-root {
+    
+}

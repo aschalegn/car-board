@@ -34,7 +34,6 @@ export default function Filter(props) {
     }
     const changeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-       
     }
 
     const filter = (e) => {
