@@ -27,7 +27,7 @@ export default function Home(props) {
             });
     }
 
-    const pageResult = () => {
+    const getPageResult = () => {
         axios.get(`api/cars/${currentPage}`)
             .then(res => {
                 if (res.status === 200) {
@@ -53,7 +53,7 @@ export default function Home(props) {
             <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
                 onChange={(e, page) => {
                     currentPage = page;
-                    pageResult()
+                    getPageResult();
                 }} />
         </Grid>
     </div>
