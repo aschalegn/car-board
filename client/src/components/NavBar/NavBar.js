@@ -1,47 +1,51 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import HOME from '../Home';
+import { Navbar, Nav } from 'react-bootstrap';
+import Home from '../Home';
 import SignUp from '../User/SignUp';
 import LogIn from '../User/LogIn';
 
-
-export default function NavBar() {
+export default function NavBarComp() {
     const [isLogedIN, setIsLogedIN] = useState(false);
     const [cookies, setCookie] = useCookies(['connect.sid', 'carboard']);
-    const logOut = () => {
-        axios.get('/api/user/logout')
-            .then(res => { 
-                isLogedIN()
-            })
-    }
+    useEffect(() => {
+        cookies['connect.sid'] ? setIsLogedIN(true) : setIsLogedIN(false);
+    }, [])
     return (
         <Router>
-            <nav>
-                <ul>
-                    {cookies['connect.sid'] ?
-                        <Fragment>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/cars">Cars</Link></li>
-                            <li><a href="http://localhost:2000/api/user/logout">logout</a></li>
-                        </Fragment>
-                        :
-                        <Fragment>
-                            <li><Link to="/user/signup">Signup</Link></li>
-                            <li><Link to="/user/login">Login</Link></li>
-                        </Fragment>
-                    }
-                </ul>
-            </nav>
+            <Navbar bg="light" expand="lg">
+                <Navbar.Brand><Link to="/">Car-Board</Link></Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse>
+                    <Nav className="mr-auto">
+                        {cookies['connect.sid'] ?
+                            <Fragment>
+                                <Link to="/">Home</Link>
+                                <Link to="/cars">Cars</Link>
+                                <a href="http://localhost:2000/api/user/logout">logout</a>
+                            </Fragment>
+                            :
+                            <Fragment>
+                                <Link to="/">Home</Link>
+                                <Link to="/user/signup">Signup</Link>
+                                <Link to="/user/login">Login</Link>
+                            </Fragment>
+                        }
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+            <h2>Car Board - <small>Get info about any car </small></h2>
             <Switch>
                 {cookies['connect.sid'] ?
                     <Fragment>
-                        <Route exact path="/" component={HOME} />
-                        <Route exact path="/cars" component={HOME} />
+                        <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
+                        <Route exact path="/cars" component={Home} />
                     </Fragment>
                     :
                     <Fragment>
+                        <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
                         <Route exact path="/user/signup" component={SignUp} />
                         <Route exact path="/user/login" component={LogIn} />
                     </Fragment>

@@ -3,26 +3,74 @@
     padding: 0;
 }
 
-.SignUp {
-    display: flex;
-    justify-content: center;
+.SignUp, .Login {
     width: 50%;
-    margin: auto;
-    background-color: aqua;
+    height: 70vh;
+    margin: 5vh auto;
+    box-shadow: 1px 1px 5px black;
 }
 
-.SignUp form {
-    width: 50%;
-    padding: 20px;
+.SignUp::before, .Login::before {
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    content: '';
+    background-image: url("https://cdn.pixabay.com/photo/2012/11/02/13/02/ford-63930__340.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    opacity: .4;
+    z-index: -1000;
 }
 
-.SignUp a {
-    background-color: rgb(80, 148, 238);
-    width: 50%;
-    padding: 20px;
+.SignUp form, .Login form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.SignUp input::placeholder, .Login input::placeholder {
+    color: rgb(13, 69, 189);
+}
+
+.SignUp .MuiInputBase-root, .Login .MuiInputBase-root {
+    width: 300px;
+    margin-top: 15px;
+}
+
+.SignUp button, .Login button {
+    margin: 20px;
+    background-color: rgb(204, 215, 243);
+    padding: 5px 15px;
+    transition: all .5s;
+}
+
+.SignUp button:hover, .Login button:hover {
+    background-color: rgb(82, 82, 241);
+    opacity: 0.7;
+    transform: scale(1.05);
+}
+
+.SignUp a, .Login a {
     text-decoration: none;
+    font-size: 20px;
+    height: 2em;
 }
 
-.SignUp .MuiSvgIcon-root {
-    
+@media only screen and (max-width:768px) {
+    .SignUp, .Login {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width:425px) {
+    .SignUp, .Login {
+        width: 95%;
+    }
+    .SignUp .MuiInputBase-root, .Login .MuiInputBase-root {
+        width: 250px;
+    }
 }

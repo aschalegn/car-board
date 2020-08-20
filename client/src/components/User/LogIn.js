@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-
+import { Input, Button } from '@material-ui/core';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import './user.css';
 export default function LogIn() {
     const [formData, setFormData] = useState({});
     const [isLogedIn, setIsLogedIn] = useState(false);
@@ -12,7 +14,6 @@ export default function LogIn() {
 
     const submitHandler = e => {
         e.preventDefault();
-        console.log(formData);
         if (formData.email && formData.password) {
             axios.get(`/api/user/login/${formData.email}/${formData.password}`)
                 .then(res => {
@@ -24,12 +25,19 @@ export default function LogIn() {
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <div className="Login">
             {isLogedIn ? <Redirect to="/cars" /> : ''}
-            <input type="email" name="email" onChange={changeHandler} placeholder="Email" />
-            <input type="password" name="password" onChange={changeHandler} placeholder="Password" />
-            <input type="submit" value="Login" />
-            {message ? message : ''}
-        </form>
+            <form onSubmit={submitHandler}>
+                <Input type="email" name="email" onChange={changeHandler} placeholder="Email" /> <br />
+                <Input type="password" name="password" onChange={changeHandler} placeholder="Password" /> <br />
+                <p>{message ? message : ''}</p>
+                <Button type="submit">Login</Button> <br />
+                <a href="http://localhost:2000/api/user/auth/facebook">
+                    <Button>
+                        <FacebookIcon />Login with Facebook
+                 </Button>
+                </a>
+            </form>
+        </div>
     );
 }

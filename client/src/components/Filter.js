@@ -38,7 +38,7 @@ export default function Filter(props) {
 
     const filter = (e) => {
         e.preventDefault();
-        axios.get('/cars/filter/params', { params: formData })
+        axios.get('api/cars/filter/params', { params: formData })
             .then(res => {
                 if (res.status === 200) {
                     props.updateFilter(res.data);

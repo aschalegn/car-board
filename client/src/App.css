@@ -2,10 +2,15 @@
   text-align: center;
 }
 
-
-
-#filterForm .MuiFormControl-root{
+#filterForm .MuiFormControl-root {
   margin-right: 2vw;
   min-width: 70px;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}

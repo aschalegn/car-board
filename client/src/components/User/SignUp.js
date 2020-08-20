@@ -32,13 +32,17 @@ export default function SignUp() {
         <div className="SignUp">
             {isSignedUp ? <Redirect to="/cars" /> : ''}
             <form onSubmit={submitHandler}>
-                <Input type="text" name="name" onChange={changeHandler} placeholder="Full-Name" /><br />
-                <Input type="email" name="email" onChange={changeHandler} placeholder="email" /><br />
-                <Input type="password" name="password" onChange={changeHandler} placeholder="password" /><br />
-                <Button type="submit">Signup </Button>
+                <Input type="text" name="name" onChange={changeHandler} placeholder="Full-Name" required /><br />
+                <Input type="email" name="email" onChange={changeHandler} placeholder="email" required /><br />
+                <Input type="password" name="password" onChange={changeHandler} placeholder="password" required /><br />
+                <p> {message ? message : ''}</p>
+                <Button type="submit">Signup </Button><br />
+                <a href="http://localhost:2000/api/user/auth/facebook">
+                    <Button>
+                        <FacebookIcon />SignUp with Facebook
+                    </Button>
+                </a>
             </form>
-            {message ? message : ''}
-            <a href="http://localhost:2000/api/user/auth/facebook"><FacebookIcon />SignUp with Facebook</a>
         </div>
     )
 }

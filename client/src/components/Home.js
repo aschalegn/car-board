@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import Cars from './Cars';
 import Filter from './Filter';
 
-export default function HOME() {
+export default function Home(props) {
     const [isFiltered, setisFiltered] = useState(false);
     const [cars, setCars] = useState([]);
     const [totalPages, setTotalPages] = useState();
@@ -13,6 +13,7 @@ export default function HOME() {
 
     useEffect(() => {
         fetchCars();
+        console.log(props);
     }, [])
 
     const fetchCars = () => {
@@ -27,7 +28,7 @@ export default function HOME() {
     }
 
     const pageResult = () => {
-        axios.get(`/cars/${currentPage}`)
+        axios.get(`api/cars/${currentPage}`)
             .then(res => {
                 if (res.status === 200) {
                     setCars(res.data);
@@ -41,18 +42,24 @@ export default function HOME() {
         setTotalPages(filterdCars.pages);
         setisFiltered(true);
     }
-
+    const nonLogedINScreen =
+        <div>
+            <h2>Well come to car board to see the car details ploeas login</h2>
+        </div>
+    const logedINScreen = <div>
+        <Filter updateFilter={updateFilter} cars={cars} />
+        <Cars cars={cars} isFiltered={isFiltered} />
+        <Grid container justify="center">
+            <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
+                onChange={(e, page) => {
+                    currentPage = page;
+                    pageResult()
+                }} />
+        </Grid>
+    </div>
     return (
         <div>
-            <Filter updateFilter={updateFilter} cars={cars} />
-            <Cars cars={cars} isFiltered={isFiltered} />
-            <Grid container justify="center">
-                <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
-                    onChange={(e, page) => {
-                        currentPage = page;
-                        pageResult()
-                    }} />
-            </Grid>
+            {props.isLogedIN ? logedINScreen : nonLogedINScreen}
         </div>
     )
 }
