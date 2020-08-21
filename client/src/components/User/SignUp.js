@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { FormControl, Input, Button } from '@material-ui/core';
 import "./user.css";
 
-export default function SignUp() {
+export default function SignUp(props) {
     const initialState = {
         name: '',
         email: '',
@@ -23,14 +23,18 @@ export default function SignUp() {
         e.preventDefault();
         axios.post('/api/user/signup', initialState)
             .then(res => {
-                if (res.status === 201) setIsSignedUp(true);
+                console.log(res);
+                if (res.status === 201) {
+                    setIsSignedUp(true);
+                    props.logIN();
+                };
                 if (res.status === 202) setMessage(res.data);
             });
     }
 
     return (
         <div className="SignUp">
-            {isSignedUp ? <Redirect to="/cars" /> : ''}
+            {isSignedUp ? <Redirect to="/" /> : ''}
             <form onSubmit={submitHandler}>
                 <Input type="text" name="name" onChange={changeHandler} placeholder="Full-Name" required /><br />
                 <Input type="email" name="email" onChange={changeHandler} placeholder="email" required /><br />

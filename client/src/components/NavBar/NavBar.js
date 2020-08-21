@@ -11,8 +11,12 @@ export default function NavBarComp() {
     const [isLogedIN, setIsLogedIN] = useState(false);
     const [cookies, setCookie] = useCookies(['connect.sid', 'carboard']);
     useEffect(() => {
-        cookies['connect.sid'] || cookies.carboard ? setIsLogedIN(true) : setIsLogedIN(false);
-    }, [])
+        if (cookies['connect.sid'] || cookies.carboard) setIsLogedIN(true)
+        else setIsLogedIN(false);
+    }, []);
+    const logIN = (status) => {
+        setIsLogedIN(!isLogedIN);
+    }
     return (
         <Router>
             <Navbar bg="light" expand="lg">
@@ -23,8 +27,8 @@ export default function NavBarComp() {
                         {isLogedIN ?
                             <Fragment>
                                 <Link to="/">Home</Link>
-                                <Link to="/cars">Cars</Link>
-                                <a href="http://localhost:2000/api/user/logout">logout</a>
+                                <a href="http://localhost:2000/api/user/logout"
+                                    onClick={() => { document.cookie = 'carboard' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;' }}>logout</a>
                             </Fragment>
                             :
                             <Fragment>
@@ -39,15 +43,12 @@ export default function NavBarComp() {
             <h2>Car Board - <small>Get info about any car </small></h2>
             <Switch>
                 {isLogedIN ?
-                    <Fragment>
-                        <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
-                        <Route exact path="/cars" component={Home} />
-                    </Fragment>
+                    <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
                     :
                     <Fragment>
                         <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
-                        <Route exact path="/user/signup" component={SignUp} />
-                        <Route exact path="/user/login" component={LogIn} />
+                        <Route exact path="/user/signup" component={(props) => <SignUp {...props} logIN={logIN} />} />
+                        <Route exact path="/user/login" component={(props) => <LogIn {...props} logIN={logIN} />} />
                     </Fragment>
                 }
             </Switch>

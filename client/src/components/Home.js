@@ -13,7 +13,6 @@ export default function Home(props) {
 
     useEffect(() => {
         fetchCars();
-        console.log(props);
     }, [])
 
     const fetchCars = () => {
