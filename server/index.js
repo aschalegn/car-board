@@ -43,6 +43,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, '..', staticPath, 'index.html'));
 });
 
-app.listen(2000, () => {
+app.listen( process.env.PORT ||2000, () => {
     console.log("server is listening on port 2000");
 });
