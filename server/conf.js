@@ -22,8 +22,8 @@ async function pfCallback(accessToken, refreshToken, profile, done) {
 }
 
 passport.use(new FacebookStrategy({
-    clientID: process.env.App_Id,
-    clientSecret: process.env.App_Secret,
+    clientID: process.env.App_Id ||'307452433930733',
+    clientSecret: process.env.App_Secret || '391a048f24ae112c761f0ff0872105fc',
     callbackURL: '/api/user/auth/facebook/callback',
     profileFields: ['id', 'displayName', 'picture.type(large)', 'email']
 }, pfCallback));
