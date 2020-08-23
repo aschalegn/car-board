@@ -12,14 +12,13 @@ passport.deserializeUser(function (id, done) {
 
 async function pfCallback(accessToken, refreshToken, profile, done) {
     const user = await isUserExist(profile.id, 'facebook')
-    // if (user) {
-    //     done(null, profile, { message: profile })
-    // }
-    // else {
-    //     let user = await createNewUser(profile._json, 'facebook')
-    //     done(null, profile, { message: profile })
-    // }
-    done(null, profile)
+    if (user) {
+        done(null,profile);
+    }
+    else {
+        let user = await createNewUser(profile._json, 'facebook')
+        done(null);
+    }
 }
 
 passport.use(new FacebookStrategy({

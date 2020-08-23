@@ -32,9 +32,9 @@ export default function NavBarComp() {
                             </Fragment>
                             :
                             <Fragment>
-                                <Link to="/">Home</Link>
-                                <Link to="/user/signup">Signup</Link>
-                                <Link to="/user/login">Login</Link>
+                                <Nav.Link><Link to="/">Home</Link></Nav.Link>
+                                <Nav.Link><Link to="/user/login">Login</Link></Nav.Link>
+                                <Nav.Link><Link to="/user/signup">Signup</Link></Nav.Link>
                             </Fragment>
                         }
                     </Nav>

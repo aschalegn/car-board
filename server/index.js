@@ -1,5 +1,6 @@
 const express = require('express'),
-    passport = require('passport');
+    passport = require('passport'),
+    path = require('path');
 const app = express(),
     session = require('express-session'),
     cors = require('cors'),
@@ -8,13 +9,15 @@ const app = express(),
 require('dotenv').config();
 const userRoute = require('./routes/user');
 const carsRoute = require('./routes/cars');
+const staticPath = 'client/build';
 
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(express.static(path.join(__dirname, '..', staticPath)));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(session(
     {
         secret: 'car-board',
@@ -33,10 +36,12 @@ mogoose.connect(url + '/car_board', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(con => { })
-    .catch(error => {
-        console.log(error);
-    })
+    .then(con => console.log("connected to mongo database"))
+    .catch(error => console.log(error));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, '..', staticPath, 'index.html'));
+});
 
 app.listen(2000, () => {
     console.log("server is listening on port 2000");

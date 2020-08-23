@@ -85,15 +85,16 @@ const signIN = async (req, res) => {
 }
 
 //Authenticate if user is loged in
-const auth = (req, res) => {
+const auth = (req, res, next) => {
     const localToken = req.cookies.carboard,
         fbToke = req.cookies['connect.sid'];
     if (localToken) {
         let payload = jwt.verify(localToken, secretKey);
-        if (payload) return true;
+        if (payload) res.locals.isAuth = true;
     }
-    else if (fbToke) return true;
-    else return false;
+    else if (fbToke) res.locals.isAuth = true;
+    else res.locals.isAuth = false;
+    next();
 }
 
 //Check if email is exist in the system
