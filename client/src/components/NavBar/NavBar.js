@@ -26,9 +26,11 @@ export default function NavBarComp() {
                     <Nav className="mr-auto">
                         {isLogedIN ?
                             <Fragment>
-                                <Link to="/">Home</Link>
-                                <a href="http://localhost:2000/api/user/logout"
-                                    onClick={() => { document.cookie = 'carboard' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;' }}>logout</a>
+                                <Nav.Link>  <Link to="/">Home</Link></Nav.Link>
+                                <Nav.Link> <a href="http://localhost:2000/api/user/logout"
+                                    onClick={() => {
+                                        document.cookie = 'carboard' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+                                    }}>logout</a> </Nav.Link>
                             </Fragment>
                             :
                             <Fragment>

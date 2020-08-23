@@ -14,14 +14,14 @@ router.get('/login/:email/:password', (req, res) => {
 //Facebook authentication
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: 'http://localhost:3000/cars',
-    failureRedirect: 'http://localhost:3000/signup'
+    successRedirect: '/cars',
+    failureRedirect: '/signup'
 }));
 
 router.get('/logout', (req, res) => {
     req.session.destroy();
     res.clearCookie('connect.sid', 'carboard');
-    res.redirect("http://localhost:3000/")
+    res.redirect("/")
 });
 
 module.exports = router;
