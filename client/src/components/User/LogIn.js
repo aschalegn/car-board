@@ -35,7 +35,7 @@ export default function LogIn(props) {
                 <Input type="password" name="password" onChange={changeHandler} placeholder="Password" /> <br />
                 <p>{message ? message : ''}</p>
                 <Button type="submit">Login</Button> <br />
-                <a href="http://localhost:2000/api/user/auth/facebook">
+                <a href="/api/user/auth/facebook">
                     <Button>
                         <FacebookIcon />Login with Facebook
                  </Button>

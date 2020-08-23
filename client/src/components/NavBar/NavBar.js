@@ -27,10 +27,10 @@ export default function NavBarComp() {
                         {isLogedIN ?
                             <Fragment>
                                 <Nav.Link>  <Link to="/">Home</Link></Nav.Link>
-                                <Nav.Link> <a href="http://localhost:2000/api/user/logout"
+                             <a href="/api/user/logout"
                                     onClick={() => {
                                         document.cookie = 'carboard' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-                                    }}>logout</a> </Nav.Link>
+                                    }}>logout</a> 
                             </Fragment>
                             :
                             <Fragment>
@@ -45,7 +45,10 @@ export default function NavBarComp() {
             <h2>Car Board - <small>Get info about any car </small></h2>
             <Switch>
                 {isLogedIN ?
-                    <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
+                    <Fragment>
+                        <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
+                        <Route exact path="/cars" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
+                    </Fragment>
                     :
                     <Fragment>
                         <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />

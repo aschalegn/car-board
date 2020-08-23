@@ -41,7 +41,7 @@ export default function SignUp(props) {
                 <Input type="password" name="password" onChange={changeHandler} placeholder="password" required /><br />
                 <p> {message ? message : ''}</p>
                 <Button type="submit">Signup </Button><br />
-                <a href="http://localhost:2000/api/user/auth/facebook">
+                <a href="/api/user/auth/facebook">
                     <Button>
                         <FacebookIcon />SignUp with Facebook
                     </Button>
