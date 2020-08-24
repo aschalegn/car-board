@@ -12,6 +12,8 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^5.2.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
     "react-cookie": "^4.0.3",
@@ -22,8 +24,13 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
+    "debug": "NODE_ENV=debug npm test",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "preset": "jest-puppeteer",
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$"
   },
   "eslintConfig": {
     "extends": "react-app"

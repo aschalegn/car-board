@@ -1,7 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
+import { useCookies, Cookies } from 'react-cookie';
 import { Navbar, Nav } from 'react-bootstrap';
 import Home from '../Home';
 import SignUp from '../User/SignUp';
@@ -9,7 +8,8 @@ import LogIn from '../User/LogIn';
 
 export default function NavBarComp() {
     const [isLogedIN, setIsLogedIN] = useState(false);
-    const [cookies, setCookie] = useCookies(['connect.sid', 'carboard']);
+    const [cookies, removeCookie] = useCookies(['connect.sid', 'carboard']);
+
     useEffect(() => {
         if (cookies['connect.sid'] || cookies.carboard) setIsLogedIN(true)
         else setIsLogedIN(false);
@@ -26,17 +26,19 @@ export default function NavBarComp() {
                     <Nav className="mr-auto">
                         {isLogedIN ?
                             <Fragment>
-                                <Nav.Link>  <Link to="/">Home</Link></Nav.Link>
-                             <a href="/api/user/logout"
+                                <Link to="/">Home</Link>
+                                <a href={window.location.host + `/api/user/logout`}
                                     onClick={() => {
-                                        document.cookie = 'carboard' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-                                    }}>logout</a> 
+                                        removeCookie('carboard', []);
+                                        removeCookie('connect.sid', []);
+                                    }}>logout
+                                </a>
                             </Fragment>
                             :
                             <Fragment>
-                                <Nav.Link><Link to="/">Home</Link></Nav.Link>
-                                <Nav.Link><Link to="/user/login">Login</Link></Nav.Link>
-                                <Nav.Link><Link to="/user/signup">Signup</Link></Nav.Link>
+                                <Link to="/">Home</Link>
+                                <Link to="/user/login">Login</Link>
+                                <Link to="/user/signup">Signup</Link>
                             </Fragment>
                         }
                     </Nav>

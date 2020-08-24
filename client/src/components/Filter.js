@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable */
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
+import { FormControl, Select, MenuItem, InputLabel, Button, Slider, Typography } from '@material-ui/core';
 
 export default function Filter(props) {
     const [manifucturers, setManifucturers] = useState([]);
     const [years, setYears] = useState([]);
     const [formData, setFormData] = useState({});
-    const [selectedMan, setSelectedMan] = useState([]);
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(0);
 
+    //Fetch all the availeable manifacurers
     const fetchMans = () => {
         axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/manufacturers')
             .then(res => {
@@ -20,22 +23,36 @@ export default function Filter(props) {
             });
     }
 
-    const fetchYears = () => {
+    //Fetch all the availeable years  
+    const getMaxMinPricesAndYears = () => {
         const years = [];
+        let lMinPrice = 0, lMaxPrice = 0;
         axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/cars')
             .then(res => {
                 if (res.status === 200) {
-                    res.data.forEach(car =>
-                        years.includes(car.year) ? '' : years.push(car.year)
-                    );
+                    res.data.forEach(car => {
+                        //push to array if not in the array
+                        years.includes(car.year) ? '' : years.push(car.year);
+                        //if smaller the min set as min
+                        if (car.price < lMinPrice) lMinPrice = car.price;
+                        //if bigger the max set as max
+                        else if (car.price > lMaxPrice) lMaxPrice = car.price;
+                    });
+                    //Update the state
+                    setMinPrice(lMinPrice);
+                    setMaxPrice(lMaxPrice);
                     setYears(years.sort());
                 }
             });
     }
+
+    //Update the state
     const changeHandler = (e) => {
+        console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
+    //get the filtered cars
     const filter = (e) => {
         e.preventDefault();
         axios.get('api/cars/filter/params', { params: formData })
@@ -48,7 +65,8 @@ export default function Filter(props) {
 
     useEffect(() => {
         fetchMans();
-        fetchYears();
+        getMaxMinPricesAndYears();
+        console.log(maxPrice);
     }, []);
 
     return (
@@ -79,6 +97,18 @@ export default function Filter(props) {
                             <MenuItem key={i} value={year}>{year}</MenuItem >
                         )}
                     </Select>
+                </FormControl>
+                <FormControl>
+                    <Typography> Min Price: {formData.minPrice}</Typography>
+                    <Slider name="minPrice" min={minPrice} max={maxPrice}
+                        onChangeCommitted={(e, val) => { setFormData({ ...formData, ['minPrice']: val }) }}
+                        defaultValue={minPrice} />
+                </FormControl>
+                <FormControl>
+                    <Typography> Max Price: {formData.maxPrice} </Typography>
+                    <Slider name="maxPrice" min={minPrice} max={maxPrice}
+                        onChangeCommitted={(e, val) => { setFormData({ ...formData, ['maxPrice']: val }) }}
+                        defaultValue={maxPrice} />
                 </FormControl>
                 <Button type="submit" variant="contained" color="primary">Search</Button>
             </form>

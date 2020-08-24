@@ -1,6 +1,6 @@
 const axios = require('axios'),
     perPage = 15;
-let filteredCars = [];
+
 const fetchCars = async () => {
     const data = await axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/cars')
         .then(res => {
@@ -26,16 +26,18 @@ module.exports.pagenation = (req, res) => {
 }
 
 const filter = (req, res) => {
-    const { year, manifacture } = req.query;
+    const { year, manifacture, minPrice, maxPrice } = req.query;
     const { page } = req.params;
     fetchCars().then(cars => {
-        if (!manifacture && !model && !year) {
+        if (!manifacture && !minPrice && !maxPrice && !year) {
             req.session.filteredCars = [];
         } else {
             req.session.filteredCars = cars.filter(car => {
                 const filterByManifacture = manifacture ? car.make === manifacture : true
                 const filterByYear = year ? car.year == year : true
-                return filterByManifacture && filterByYear
+                const filterByMinPrice = minPrice ? car.price > minPrice : true
+                const filterByMaxPrice = maxPrice ? car.price < maxPrice : true
+                return filterByManifacture && filterByYear && filterByMaxPrice && filterByMinPrice
             });
         }
         res.send({ pages: Math.ceil(req.session.filteredCars.length / perPage), cars: req.session.filteredCars.slice(0, perPage) });
