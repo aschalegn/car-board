@@ -48,7 +48,7 @@ export default function Home(props) {
             <h2>Wellcome please <Link to="/login">Login</Link> / <Link to="/signup">Signup</Link></h2>
         </div>
     const logedINScreen =
-        <div>
+        <div className="logedINScreen">
             <h2>Car Board - <small>Get info about any car </small></h2>
             <Filter updateFilter={updateFilter} cars={cars} />
             <Cars cars={cars} isFiltered={isFiltered} />

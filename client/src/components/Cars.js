@@ -9,7 +9,7 @@ export default function Cars(props) {
                     <h3>No Result, </h3>
                     <p>Wait a moment or try diffrent parameters!</p>
                 </div>)
-                : <Table style={{ width: "85vw", margin: "auto" }}>
+                : <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell><b></b></TableCell>
@@ -23,7 +23,7 @@ export default function Cars(props) {
                         {props.cars.map(car =>
                             <TableRow key={car.id}>
                                 <TableCell>
-                                    <img data-hook="car-image" src={car.img_url} alt={car.model} height="100px" width="150px" />
+                                    <img src={car.img_url} alt={car.model} height="100px" width="150px" />
                                 </TableCell>
                                 <TableCell>{car.model}</TableCell>
                                 <TableCell>{car.price}$</TableCell>

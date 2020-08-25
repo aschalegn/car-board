@@ -42,7 +42,7 @@ export default function Filter(props) {
                     setMinPrice(lMinPrice);
                     setMaxPrice(lMaxPrice);
                     setYears(years.sort());
-                                }
+                }
             });
     }
 
@@ -68,47 +68,45 @@ export default function Filter(props) {
     }, []);
 
     return (
-        <div>
-            <form onSubmit={(e) => { filter(e) }} id="filterForm">
-                <FormControl>
-                    <InputLabel >Filter By:</InputLabel>
-                </FormControl>
-                <FormControl>
-                    <InputLabel disabled value=""> Maker</InputLabel>
-                    <Select onChange={changeHandler} name="manifacture">
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        {manifucturers.map((manifacture, i) =>
-                            <MenuItem key={i} value={manifacture}>{manifacture}</MenuItem >
-                        )}
-                    </Select>
-                </FormControl>
-                <FormControl>
-                    <InputLabel> Year </InputLabel>
-                    <Select onChange={changeHandler} name="year">
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        {years.map((year, i) =>
-                            <MenuItem key={i} value={year}>{year}</MenuItem >
-                        )}
-                    </Select>
-                </FormControl>
-                <FormControl>
-                    <Typography> Min Price: {formData.minPrice}</Typography>
-                    <Slider name="minPrice" min={minPrice} max={maxPrice}
-                        onChangeCommitted={(e, val) => { setFormData({ ...formData, ['minPrice']: val }) }}
-                        defaultValue={minPrice} />
-                </FormControl>
-                <FormControl>
-                    <Typography> Max Price: {formData.maxPrice} </Typography>
-                    <Slider name="maxPrice" min={minPrice} max={maxPrice}
-                        onChangeCommitted={(e, val) => { setFormData({ ...formData, ['maxPrice']: val }) }}
-                        defaultValue={maxPrice} />
-                </FormControl>
-                <Button type="submit" variant="contained" color="primary">Search</Button>
-            </form>
-        </div>
+        <form onSubmit={(e) => { filter(e) }} id="filterForm">
+            <FormControl>
+                <InputLabel >Filter By:</InputLabel>
+            </FormControl>
+            <FormControl>
+                <InputLabel disabled value=""> Maker</InputLabel>
+                <Select onChange={changeHandler} name="manifacture">
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    {manifucturers.map((manifacture, i) =>
+                        <MenuItem key={i} value={manifacture}>{manifacture}</MenuItem >
+                    )}
+                </Select>
+            </FormControl>
+            <FormControl>
+                <InputLabel> Year </InputLabel>
+                <Select onChange={changeHandler} name="year">
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    {years.map((year, i) =>
+                        <MenuItem key={i} value={year}>{year}</MenuItem >
+                    )}
+                </Select>
+            </FormControl>
+            <FormControl>
+                <Typography> Min Price: {formData.minPrice}</Typography>
+                <Slider name="minPrice" min={minPrice} max={maxPrice}
+                    onChangeCommitted={(e, val) => { setFormData({ ...formData, ['minPrice']: val }) }}
+                    defaultValue={minPrice} />
+            </FormControl>
+            <FormControl>
+                <Typography> Max Price: {formData.maxPrice} </Typography>
+                <Slider name="maxPrice" min={minPrice} max={maxPrice}
+                    onChangeCommitted={(e, val) => { setFormData({ ...formData, ['maxPrice']: val }) }}
+                    defaultValue={maxPrice} />
+            </FormControl>
+            <Button type="submit" variant="contained" color="primary">Search</Button>
+        </form>
     );
 }
