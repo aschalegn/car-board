@@ -32,21 +32,19 @@ export default function NavBarComp() {
                                     onClick={() => {
                                         remove('connect.sid');
                                         remove('carboard');
-                                        <Redirect to="/" />
                                     }}>logout
                                 </Link>
                             </Fragment>
                             :
                             <Fragment>
                                 <Link to="/">Home</Link>
-                                <Link to="/user/login">Login</Link>
-                                <Link to="/user/signup">Signup</Link>
+                                <Link to="/login">Login</Link>
+                                <Link to="/signup">Signup</Link>
                             </Fragment>
                         }
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            <h2>Car Board - <small>Get info about any car </small></h2>
             <Switch>
                 {isLogedIN ?
                     <Fragment>
@@ -56,8 +54,8 @@ export default function NavBarComp() {
                     :
                     <Fragment>
                         <Route exact path="/" component={(props) => <Home {...props} isLogedIN={isLogedIN} />} />
-                        <Route exact path="/user/signup" component={(props) => <SignUp {...props} logIN={logIN} />} />
-                        <Route exact path="/user/login" component={(props) => <LogIn {...props} logIN={logIN} />} />
+                        <Route exact path="/signup" component={(props) => <SignUp {...props} logIN={logIN} />} />
+                        <Route exact path="/login" component={(props) => <LogIn {...props} logIN={logIN} />} />
                     </Fragment>
                 }
             </Switch>

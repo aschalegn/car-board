@@ -4,6 +4,7 @@ import { Pagination } from '@material-ui/lab';
 import { Grid } from '@material-ui/core';
 import Cars from './Cars';
 import Filter from './Filter';
+import { Link } from 'react-router-dom';
 
 export default function Home(props) {
     const [isFiltered, setisFiltered] = useState(false);
@@ -42,20 +43,23 @@ export default function Home(props) {
         setisFiltered(true);
     }
     const nonLogedINScreen =
-        <div>
-            <h2>Wellcome to car board to see the car details pleas login</h2>
+        <div className="nonLogedINScreen">
+            <h2>Car Board - <small>Get info about any car </small></h2>
+            <h2>Wellcome please <Link to="/login">Login</Link> / <Link to="/signup">Signup</Link></h2>
         </div>
-    const logedINScreen = <div>
-        <Filter updateFilter={updateFilter} cars={cars} />
-        <Cars cars={cars} isFiltered={isFiltered} />
-        <Grid container justify="center">
-            <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
-                onChange={(e, page) => {
-                    currentPage = page;
-                    getPageResult();
-                }} />
-        </Grid>
-    </div>
+    const logedINScreen =
+        <div>
+            <h2>Car Board - <small>Get info about any car </small></h2>
+            <Filter updateFilter={updateFilter} cars={cars} />
+            <Cars cars={cars} isFiltered={isFiltered} />
+            <Grid container justify="center">
+                <Pagination defaultPage={currentPage} count={totalPages} color="secondary" size="large"
+                    onChange={(e, page) => {
+                        currentPage = page;
+                        getPageResult();
+                    }} />
+            </Grid>
+        </div>
     return (
         <div>
             {props.isLogedIN ? logedINScreen : nonLogedINScreen}
