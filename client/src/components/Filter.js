@@ -42,13 +42,12 @@ export default function Filter(props) {
                     setMinPrice(lMinPrice);
                     setMaxPrice(lMaxPrice);
                     setYears(years.sort());
-                }
+                                }
             });
     }
 
     //Update the state
     const changeHandler = (e) => {
-        console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
@@ -66,7 +65,6 @@ export default function Filter(props) {
     useEffect(() => {
         fetchMans();
         getMaxMinPricesAndYears();
-        console.log(maxPrice);
     }, []);
 
     return (
@@ -86,7 +84,6 @@ export default function Filter(props) {
                         )}
                     </Select>
                 </FormControl>
-
                 <FormControl>
                     <InputLabel> Year </InputLabel>
                     <Select onChange={changeHandler} name="year">

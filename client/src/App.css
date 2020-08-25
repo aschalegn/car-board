@@ -16,7 +16,7 @@ a:hover {
 }
 
 .navbar-nav {
-  height: 7vh;
+  min-height: 7vh;
 }
 
 .navbar-nav a {

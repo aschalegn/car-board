@@ -28,10 +28,11 @@ export default function NavBarComp() {
                         {isLogedIN ?
                             <Fragment>
                                 <Link to="/">Home</Link>
-                                <Link href={window.location.host + `/api/user/logout`}
+                                <Link href={`/api/user/logout`}
                                     onClick={() => {
                                         remove('connect.sid');
                                         remove('carboard');
+                                        setIsLogedIN(false);
                                     }}>logout
                                 </Link>
                             </Fragment>
