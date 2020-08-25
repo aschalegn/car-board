@@ -12,7 +12,7 @@ export default function NavBarComp() {
     const [cookies, removeCookie, remove] = useCookies(['connect.sid', 'carboard']);
 
     useEffect(() => {
-        if (cookies['connect.sid'] && cookies['connect'] || cookies.carboard) setIsLogedIN(true)
+        if (cookies['connect.sid'] || cookies.carboard) setIsLogedIN(true)
         else setIsLogedIN(false);
     }, []);
     const logIN = (status) => {
