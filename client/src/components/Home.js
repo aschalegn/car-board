@@ -43,7 +43,7 @@ export default function Home(props) {
     }
     const nonLogedINScreen =
         <div>
-            <h2>Well come to car board to see the car details ploeas login</h2>
+            <h2>Wellcome to car board to see the car details pleas login</h2>
         </div>
     const logedINScreen = <div>
         <Filter updateFilter={updateFilter} cars={cars} />

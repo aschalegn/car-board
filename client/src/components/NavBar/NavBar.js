@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React, { useState, Fragment, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { useCookies, Cookies } from 'react-cookie';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import { Navbar, Nav } from 'react-bootstrap';
 import Home from '../Home';
 import SignUp from '../User/SignUp';
@@ -8,10 +9,10 @@ import LogIn from '../User/LogIn';
 
 export default function NavBarComp() {
     const [isLogedIN, setIsLogedIN] = useState(false);
-    const [cookies, removeCookie] = useCookies(['connect.sid', 'carboard']);
+    const [cookies, removeCookie, remove] = useCookies(['connect.sid', 'carboard']);
 
     useEffect(() => {
-        if (cookies['connect.sid'] || cookies.carboard) setIsLogedIN(true)
+        if (cookies['connect.sid'] && cookies['connect'] || cookies.carboard) setIsLogedIN(true)
         else setIsLogedIN(false);
     }, []);
     const logIN = (status) => {
@@ -27,12 +28,13 @@ export default function NavBarComp() {
                         {isLogedIN ?
                             <Fragment>
                                 <Link to="/">Home</Link>
-                                <a href={window.location.host + `/api/user/logout`}
+                                <Link href={window.location.host + `/api/user/logout`}
                                     onClick={() => {
-                                        removeCookie('carboard', []);
-                                        removeCookie('connect.sid', []);
+                                        remove('connect.sid');
+                                        remove('carboard');
+                                        <Redirect to="/" />
                                     }}>logout
-                                </a>
+                                </Link>
                             </Fragment>
                             :
                             <Fragment>
@@ -59,6 +61,6 @@ export default function NavBarComp() {
                     </Fragment>
                 }
             </Switch>
-        </Router>
+        </Router >
     );
 }
