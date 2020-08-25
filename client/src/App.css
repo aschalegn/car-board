@@ -69,10 +69,16 @@ a:hover {
     width: 100vw;
   }
   .logedINScreen img {
-    width: 20vw;
+    width: 19vw;
   }
   .logedINScreen th, .logedINScreen td {
-    width: 20vw;
-    padding: 15px 5px;
+    width: 18.7vw;
+    padding: 15px 0.5vw;
+  }
+  .logedINScreen th:first-of-type, .logedINScreen td:first-of-type{
+    padding-left: 0;
+  }
+  .logedINScreen th:last-of-type, .logedINScreen td:last-of-type{
+    padding-right: 0;
   }
 }
