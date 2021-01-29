@@ -12,7 +12,7 @@ export default function Filter(props) {
 
     //Fetch all the availeable manifacurers
     const fetchMans = () => {
-        axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/manufacturers')
+        axios.get('https://private-anon-7e9b208978-carsapi1.apiary-mock.com/manufacturers')
             .then(res => {
                 if (res.status === 200) {
                     const manNames = res.data.map(man => {
@@ -27,7 +27,7 @@ export default function Filter(props) {
     const getMaxMinPricesAndYears = () => {
         const years = [];
         let lMinPrice = 0, lMaxPrice = 0;
-        axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/cars')
+        axios.get('https://private-anon-7e9b208978-carsapi1.apiary-mock.com/cars')
             .then(res => {
                 if (res.status === 200) {
                     res.data.forEach(car => {

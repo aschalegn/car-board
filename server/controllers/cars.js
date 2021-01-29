@@ -2,7 +2,7 @@ const axios = require('axios'),
     perPage = 15;
 
 const fetchCars = async () => {
-    const data = await axios.get('https://private-anon-ab9cc9d997-carsapi1.apiary-mock.com/cars')
+    const data = await axios.get('https://private-anon-7e9b208978-carsapi1.apiary-mock.com/cars')
         .then(res => {
             if (res.status === 200) {
                 return res.data
@@ -11,14 +11,14 @@ const fetchCars = async () => {
     return await data
 }
 
-module.exports.index = (req, res) => {
+const index = (req, res) => {
     fetchCars().then(cars => {
         req.session.filteredCars = cars;
         res.send({ pages: Math.ceil(cars.length / perPage), cars: cars.slice(0, perPage) });
     });
 }
 
-module.exports.pagenation = (req, res) => {
+const pagenation = (req, res) => {
     const { page } = req.params;
     let start = page == 1 ? 0 : (page - 1) * perPage;
     const cartToPage = req.session.filteredCars.slice(start, page * perPage);
@@ -44,4 +44,4 @@ const filter = (req, res) => {
     });
 }
 
-module.exports.filter = filter;
+module.exports = { filter, index, pagenation };
